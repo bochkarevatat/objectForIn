@@ -1,19 +1,21 @@
-export default function orderByProps(obj) {
+export default function orderByProps(obj, arr = []) {
   const result = [];
-  for (const [key, value] of Object.entries(obj)) {
-    result.push({
-      key,
-      value,
-    });
-  }
-  result.sort((a, b) => {
-    if (a.key > b.key) {
-      return 1;
+  const result2 = [];
+  for (const key in obj) {
+    if (!arr.includes(key)) {
+      result2.push({
+        key,
+        value: obj[key],
+      });
     }
-    return -1;
+  }
+  arr.forEach((elem) => {
+    result.push({
+      key: elem,
+      value: obj[elem],
+    });
   });
-
-  const result2 = result.splice(3, 2);
-  result2.sort(() => -1);
-  return result2.concat(result.slice(0, 3));
+  result2.sort((a, b) => (a.key > b.key ? 1 : -1));
+  const resultArr = [...result, ...result2];
+  return resultArr;
 }
